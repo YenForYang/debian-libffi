@@ -1,0 +1,13 @@
+Package: libffi6-udeb
+Source: libffi
+Version: 3.2.1-9
+Architecture: amd64
+Maintainer: Debian GCC Maintainers <debian-gcc@lists.debian.org>
+Installed-Size: 102
+Depends: libc6-udeb (>= 2.28)
+Section: debian-installer
+Priority: optional
+Description: Foreign Function Interface library runtime
+ A foreign function interface is the popular name for the interface that
+ allows code written in one language to call code written in another
+ language.

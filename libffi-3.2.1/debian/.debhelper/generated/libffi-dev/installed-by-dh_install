@@ -1,0 +1,8 @@
+debian/tmp/usr/include/ffi.h
+debian/tmp/usr/include/ffitarget.h
+debian/tmp/usr/lib/x86_64-linux-gnu/libffi.a
+debian/tmp/usr/lib/x86_64-linux-gnu/libffi_pic.a
+debian/tmp/usr/lib/x86_64-linux-gnu/libffi.so
+debian/tmp/usr/lib/x86_64-linux-gnu/pkgconfig/libffi.pc
+debian/tmp/usr/share/info
+debian/tmp/usr/share/man

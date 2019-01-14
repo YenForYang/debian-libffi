@@ -1,0 +1,666 @@
+ dpkg-buildpackage -D -us -uc -ui -b -J5 -Pnobiarch,nocheck,nodoc -Zxz -z1
+dpkg-buildpackage: info: source package libffi
+dpkg-buildpackage: info: source version 3.2.1-9
+dpkg-buildpackage: info: source distribution unstable
+dpkg-buildpackage: info: source changed by Matthias Klose <doko@debian.org>
+ dpkg-source -Zxz -z1 --before-build .
+dpkg-buildpackage: info: host architecture amd64
+ fakeroot debian/rules clean
+dh_testdir
+dh_testroot
+rm -f stamp-*
+rm -rf build*
+rm -f doc/libffi.info
+dh_autoreconf_clean
+dh_clean 
+	rm -f debian/debhelper-build-stamp
+	rm -rf debian/.debhelper/
+	rm -f debian/libffi-dev.debhelper.log debian/libffi6-dbg.debhelper.log debian/libffi6-udeb.debhelper.log debian/libffi6.debhelper.log
+	rm -f -- debian/libffi-dev.substvars debian/libffi6.substvars debian/libffi6-dbg.substvars debian/libffi6-udeb.substvars debian/files
+	rm -fr -- debian/libffi-dev/ debian/tmp/ debian/libffi6/ debian/libffi6-dbg/ debian/libffi6-udeb/
+	find .  \( \( \
+		\( -path .\*/.git -o -path .\*/.svn -o -path .\*/.bzr -o -path .\*/.hg -o -path .\*/CVS -o -path .\*/.pc -o -path .\*/_darcs \) -prune -o -type f -a \
+	        \( -name '#*#' -o -name '.*~' -o -name '*~' -o -name DEADJOE \
+		 -o -name '*.orig' -o -name '*.rej' -o -name '*.bak' \
+		 -o -name '.*.orig' -o -name .*.rej -o -name '.SUMS' \
+		 -o -name TAGS -o \( -path '*/.deps/*' -a -name '*.P' \) \
+		\) -exec rm -f {} + \) -o \
+		\( -type d -a -name autom4te.cache -prune -exec rm -rf {} + \) \)
+FAKEROOTKEY=1340634976 LD_LIBRARY_PATH= LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libfakeroot/libfakeroot-sysv.so debian/rules clean
+ debian/rules build
+dh_testdir
+dh_autoreconf
+	find ! -ipath "./debian/*" -a ! \( -path '*/.git/*' -o -path '*/.hg/*' -o -path '*/.bzr/*' -o -path '*/.svn/*' -o -path '*/CVS/*' \) -a  -type f -exec md5sum {} + -o -type l -printf "symlink  %p
+" > debian/autoreconf.before
+	grep -q ^XDT_ configure.ac
+	autoreconf -f -i
+libtoolize: putting auxiliary files in '.'.
+libtoolize: copying file './ltmain.sh'
+libtoolize: putting macros in AC_CONFIG_MACRO_DIRS, 'm4'.
+libtoolize: copying file 'm4/libtool.m4'
+libtoolize: copying file 'm4/ltoptions.m4'
+libtoolize: copying file 'm4/ltsugar.m4'
+libtoolize: copying file 'm4/ltversion.m4'
+libtoolize: copying file 'm4/lt~obsolete.m4'
+configure.ac:31: installing './compile'
+configure.ac:19: installing './missing'
+Makefile.am: installing './depcomp'
+	find ! -ipath "./debian/*" -a ! \( -path '*/.git/*' -o -path '*/.hg/*' -o -path '*/.bzr/*' -o -path '*/.svn/*' -o -path '*/CVS/*' \) -a  -type f -exec md5sum {} + -o -type l -printf "symlink  %p
+" > debian/autoreconf.after
+rm -rf build
+mkdir -p build
+cd build && ../configure \
+	--host=x86_64-linux-gnu \
+	--build=x86_64-linux-gnu \
+	--prefix=/usr \
+	--mandir=\${prefix}/share/man \
+	--infodir=\${prefix}/share/info \
+	--enable-pax_emutramp \
+	CC="x86_64-linux-gnu-gcc" \
+	CXX="x86_64-linux-gnu-g++" \
+	CPPFLAGS="-Wdate-time -D_FORTIFY_SOURCE=2" \
+	CFLAGS="-g -O2 -fdebug-prefix-map=/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1=. -Wformat -march=native -pipe -Wformat-security" \
+	CCASFLAGS="-g -O2 -fdebug-prefix-map=/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1=. -Wformat -march=native -pipe -Wformat-security -Wa,--gdwarf-2" \
+	LDFLAGS="-Wl,-z,defs "
+configure: loading site script /usr/share/config.site
+checking build system type... (cached) x86_64-pc-linux-gnu
+checking host system type... (cached) x86_64-pc-linux-gnu
+checking target system type... x86_64-pc-linux-gnu
+checking for gsed... sed
+checking for a BSD-compatible install... /usr/bin/install
+checking whether build environment is sane... yes
+checking for a thread-safe mkdir -p... /bin/mkdir -p
+checking for gawk... /usr/bin/gawk
+checking whether make sets $(MAKE)... yes
+checking whether make supports nested variables... yes
+checking for x86_64-linux-gnu-gcc... icc.pl
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... (cached) o
+checking whether we are using the GNU C compiler... (cached) yes
+checking whether icc.pl accepts -g... yes
+checking for icc.pl option to accept ISO C89... (cached) -std=gnu89
+checking whether icc.pl -std=gnu89 understands -c and -o together... yes
+checking whether make supports the include directive... yes (GNU style)
+checking dependency style of icc.pl -std=gnu89... gcc3
+checking whether we are using the GNU C++ compiler... yes
+checking whether icpc.pl accepts -g... yes
+checking dependency style of icpc.pl... gcc3
+checking dependency style of icc.pl -std=gnu89... gcc3
+checking how to print strings... printf
+checking for a sed that does not truncate output... /bin/sed
+checking for grep that handles long lines and -e... (cached) /bin/grep
+checking for egrep... (cached) /bin/grep -E
+checking for fgrep... /bin/grep -F
+checking for ld used by icc.pl -std=gnu89... /usr/bin/ld
+checking if the linker (/usr/bin/ld) is GNU ld... yes
+checking for BSD- or MS-compatible name lister (nm)... /usr/bin/x86_64-linux-gnu-nm -B
+checking the name lister (/usr/bin/x86_64-linux-gnu-nm -B) interface... BSD nm
+checking whether ln -s works... yes
+checking the maximum length of command line arguments... 1572864
+checking how to convert x86_64-pc-linux-gnu file names to x86_64-pc-linux-gnu format... func_convert_file_noop
+checking how to convert x86_64-pc-linux-gnu file names to toolchain format... func_convert_file_noop
+checking for /usr/bin/ld option to reload object files... -r
+checking for x86_64-linux-gnu-objdump... /usr/bin/x86_64-linux-gnu-objdump
+checking how to recognize dependent libraries... pass_all
+checking for x86_64-linux-gnu-dlltool... no
+checking for dlltool... no
+checking how to associate runtime and link libraries... printf %s\n
+checking for x86_64-linux-gnu-ar... xiar.pl
+checking for archiver @FILE support... @
+checking for x86_64-linux-gnu-strip... /usr/bin/x86_64-linux-gnu-strip
+checking for x86_64-linux-gnu-ranlib... /usr/bin/x86_64-linux-gnu-ranlib
+checking command to parse /usr/bin/x86_64-linux-gnu-nm -B output from icc.pl -std=gnu89 object... ok
+checking for sysroot... no
+checking for a working dd... /bin/dd
+checking how to truncate binary pipes... /bin/dd bs=4096 count=1
+checking for x86_64-linux-gnu-mt... no
+checking for mt... mt
+checking if mt is a manifest tool... no
+checking how to run the C preprocessor... icc.pl -E
+checking for ANSI C header files... (cached) yes
+checking for sys/types.h... (cached) yes
+checking for sys/stat.h... (cached) yes
+checking for stdlib.h... (cached) yes
+checking for string.h... (cached) yes
+checking for memory.h... (cached) yes
+checking for strings.h... (cached) yes
+checking for inttypes.h... (cached) yes
+checking for stdint.h... (cached) yes
+checking for unistd.h... (cached) yes
+checking for dlfcn.h... yes
+checking for objdir... .libs
+checking if icc.pl -std=gnu89 supports -fno-rtti -fno-exceptions... yes
+checking for icc.pl -std=gnu89 option to produce PIC... -fPIC -DPIC
+checking if icc.pl -std=gnu89 PIC flag -fPIC -DPIC works... yes
+checking if icc.pl -std=gnu89 static flag -static works... no
+checking if icc.pl -std=gnu89 supports -c -o file.o... yes
+checking if icc.pl -std=gnu89 supports -c -o file.o... (cached) yes
+checking whether the icc.pl -std=gnu89 linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... /usr/bin/ld: /lib/x86_64-linux-gnu/libz.so.1: no version information available (required by /usr/lib/x86_64-linux-gnu/libbfd-2.31.1-system.so)
+yes
+checking whether -lc should be explicitly linked in... no
+checking dynamic linker characteristics... GNU/Linux ld.so
+checking how to hardcode library paths into programs... immediate
+checking whether stripping libraries is possible... yes
+checking if libtool supports shared libraries... yes
+checking whether to build shared libraries... yes
+checking whether to build static libraries... yes
+checking how to run the C++ preprocessor... icpc.pl -E
+checking for ld used by icpc.pl... /usr/bin/ld -m elf_x86_64
+checking if the linker (/usr/bin/ld -m elf_x86_64) is GNU ld... yes
+checking whether the icpc.pl linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
+checking for icpc.pl option to produce PIC... -fPIC -DPIC
+checking if icpc.pl PIC flag -fPIC -DPIC works... yes
+checking if icpc.pl static flag -static works... no
+checking if icpc.pl supports -c -o file.o... yes
+checking if icpc.pl supports -c -o file.o... (cached) yes
+checking whether the icpc.pl linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
+checking dynamic linker characteristics... (cached) GNU/Linux ld.so
+checking how to hardcode library paths into programs... immediate
+checking size of size_t... 8
+checking for C compiler vendor... intel
+checking CFLAGS for maximum warnings... -Wall
+checking whether to enable maintainer-specific portions of Makefiles... no
+checking for sys/mman.h... (cached) yes
+checking for mmap... yes
+checking for mkostemp... yes
+checking for sys/mman.h... (cached) yes
+checking for mmap... (cached) yes
+checking whether read-only mmap of a plain file works... yes
+checking whether mmap from /dev/zero works... yes
+checking for MAP_ANON(YMOUS)... yes
+checking whether mmap with MAP_ANON(YMOUS) works... yes
+checking for ANSI C header files... (cached) yes
+checking for memcpy... yes
+checking for size_t... yes
+checking for working alloca.h... yes
+checking for alloca... yes
+checking size of double... 8
+checking size of long double... 16
+checking whether byte ordering is bigendian... (cached) no
+checking assembler .cfi pseudo-op support... yes
+checking assembler supports pc related relocs... yes
+checking assembler .ascii pseudo-op support... yes
+checking assembler .string pseudo-op support... yes
+configure: WARNING: EMUTRAMP is experimental only.  Use --enable-pax_emutramp=experimental to enforce.
+checking for _ prefix in compiled symbols... no
+checking toolchain supports unwind section type... yes
+checking whether .eh_frame section should be read-only... yes
+checking for __attribute__((visibility("hidden")))... yes
+checking that generated files are newer than configure... done
+configure: creating ./config.status
+config.status: creating include/Makefile
+config.status: creating include/ffi.h
+config.status: creating Makefile
+config.status: creating testsuite/Makefile
+config.status: creating man/Makefile
+config.status: creating libffi.pc
+config.status: creating fficonfig.h
+config.status: linking ../src/x86/ffitarget.h to include/ffitarget.h
+config.status: executing buildir commands
+config.status: skipping top_srcdir/Makefile - not created
+config.status: executing depfiles commands
+config.status: executing libtool commands
+config.status: executing include commands
+config.status: executing src commands
+touch stamp-configure
+dh_testdir
+/usr/bin/make -C build
+make[1]: Entering directory '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/build'
+/usr/bin/make 'AR_FLAGS=' 'CC_FOR_BUILD=' 'CFLAGS=-g -O2 -fdebug-prefix-map=/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1=. -Wformat -march=native -pipe -Wformat-security  -Wall -fexceptions' 'CXXFLAGS=-g -O2' 'CFLAGS_FOR_BUILD=' 'CFLAGS_FOR_TARGET=' 'INSTALL=/usr/bin/install' 'INSTALL_DATA=/usr/bin/install -m 644' 'INSTALL_PROGRAM=/usr/bin/install' 'INSTALL_SCRIPT=/usr/bin/install' 'JC1FLAGS=' 'LDFLAGS=-Wl,-z,defs ' 'LIBCFLAGS=' 'LIBCFLAGS_FOR_TARGET=' 'MAKE=/usr/bin/make' 'MAKEINFO=/bin/bash /dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/missing makeinfo ' 'PICFLAG=' 'PICFLAG_FOR_TARGET=' 'RUNTESTFLAGS=' 'SHELL=/bin/bash' 'exec_prefix=/usr' 'infodir=/usr/share/info' 'libdir=/usr/lib' 'mandir=/usr/share/man' 'prefix=/usr' 'AR=xiar.pl' 'AS=as' 'CC=icc.pl -std=gnu89' 'CXX=icpc.pl' 'LD=/usr/bin/ld -m elf_x86_64' 'NM=/usr/bin/x86_64-linux-gnu-nm -B' 'RANLIB=/usr/bin/x86_64-linux-gnu-ranlib' 'DESTDIR=' all-recursive
+make[2]: Entering directory '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/build'
+Making all in include
+make[3]: Entering directory '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/build/include'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/build/include'
+Making all in testsuite
+make[3]: Entering directory '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/build/testsuite'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/build/testsuite'
+Making all in man
+make[3]: Entering directory '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/build/man'
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/build/man'
+make[3]: Entering directory '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/build'
+restore=: && backupdir=".am$$" && \
+am__cwd=`pwd` && CDPATH="${ZSH_VERSION+.}:" && cd .. && \
+rm -rf $backupdir && mkdir $backupdir && \
+if (/bin/bash /dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/missing makeinfo   --version) >/dev/null 2>&1; then \
+  for f in ../doc/libffi.info ../doc/libffi.info-[0-9] ../doc/libffi.info-[0-9][0-9] ../doc/libffi.i[0-9] ../doc/libffi.i[0-9][0-9]; do \
+    if test -f $f; then mv $f $backupdir; restore=mv; else :; fi; \
+  done; \
+else :; fi && \
+cd "$am__cwd"; \
+if /bin/bash /dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/missing makeinfo     -I doc -I ../doc \
+ -o ../doc/libffi.info ../doc/libffi.texi; \
+then \
+  rc=0; \
+  CDPATH="${ZSH_VERSION+.}:" && cd ..; \
+else \
+  rc=$?; \
+  CDPATH="${ZSH_VERSION+.}:" && cd .. && \
+  $restore $backupdir/* `echo "./../doc/libffi.info" | sed 's|[^/]*$||'`; \
+fi; \
+rm -rf $backupdir; exit $rc
+depbase=`echo src/prep_cif.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile icc.pl -std=gnu89 -DHAVE_CONFIG_H -I. -I..  -I. -I../include -Iinclude -I../src -Wdate-time -D_FORTIFY_SOURCE=2  -g -O2 -fdebug-prefix-map=/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1=. -Wformat -march=native -pipe -Wformat-security  -Wall -fexceptions -MT src/prep_cif.lo -MD -MP -MF $depbase.Tpo -c -o src/prep_cif.lo ../src/prep_cif.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+libtool: compile:  icc.pl -std=gnu89 -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -Wdate-time -D_FORTIFY_SOURCE=2 -g -O2 -fdebug-prefix-map=/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1=. -Wformat -march=native -pipe -Wformat-security -Wall -fexceptions -MT src/prep_cif.lo -MD -MP -MF src/.deps/prep_cif.Tpo -c ../src/prep_cif.c  -fPIC -DPIC -o src/.libs/prep_cif.o
+libtool: compile:  icc.pl -std=gnu89 -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -Wdate-time -D_FORTIFY_SOURCE=2 -g -O2 -fdebug-prefix-map=/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1=. -Wformat -march=native -pipe -Wformat-security -Wall -fexceptions -MT src/prep_cif.lo -MD -MP -MF src/.deps/prep_cif.Tpo -c ../src/prep_cif.c -o src/prep_cif.o >/dev/null 2>&1
+depbase=`echo src/types.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile icc.pl -std=gnu89 -DHAVE_CONFIG_H -I. -I..  -I. -I../include -Iinclude -I../src -Wdate-time -D_FORTIFY_SOURCE=2  -g -O2 -fdebug-prefix-map=/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1=. -Wformat -march=native -pipe -Wformat-security  -Wall -fexceptions -MT src/types.lo -MD -MP -MF $depbase.Tpo -c -o src/types.lo ../src/types.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+libtool: compile:  icc.pl -std=gnu89 -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -Wdate-time -D_FORTIFY_SOURCE=2 -g -O2 -fdebug-prefix-map=/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1=. -Wformat -march=native -pipe -Wformat-security -Wall -fexceptions -MT src/types.lo -MD -MP -MF src/.deps/types.Tpo -c ../src/types.c  -fPIC -DPIC -o src/.libs/types.o
+libtool: compile:  icc.pl -std=gnu89 -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -Wdate-time -D_FORTIFY_SOURCE=2 -g -O2 -fdebug-prefix-map=/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1=. -Wformat -march=native -pipe -Wformat-security -Wall -fexceptions -MT src/types.lo -MD -MP -MF src/.deps/types.Tpo -c ../src/types.c -o src/types.o >/dev/null 2>&1
+depbase=`echo src/raw_api.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile icc.pl -std=gnu89 -DHAVE_CONFIG_H -I. -I..  -I. -I../include -Iinclude -I../src -Wdate-time -D_FORTIFY_SOURCE=2  -g -O2 -fdebug-prefix-map=/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1=. -Wformat -march=native -pipe -Wformat-security  -Wall -fexceptions -MT src/raw_api.lo -MD -MP -MF $depbase.Tpo -c -o src/raw_api.lo ../src/raw_api.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+libtool: compile:  icc.pl -std=gnu89 -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -Wdate-time -D_FORTIFY_SOURCE=2 -g -O2 -fdebug-prefix-map=/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1=. -Wformat -march=native -pipe -Wformat-security -Wall -fexceptions -MT src/raw_api.lo -MD -MP -MF src/.deps/raw_api.Tpo -c ../src/raw_api.c  -fPIC -DPIC -o src/.libs/raw_api.o
+libtool: compile:  icc.pl -std=gnu89 -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -Wdate-time -D_FORTIFY_SOURCE=2 -g -O2 -fdebug-prefix-map=/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1=. -Wformat -march=native -pipe -Wformat-security -Wall -fexceptions -MT src/raw_api.lo -MD -MP -MF src/.deps/raw_api.Tpo -c ../src/raw_api.c -o src/raw_api.o >/dev/null 2>&1
+depbase=`echo src/java_raw_api.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile icc.pl -std=gnu89 -DHAVE_CONFIG_H -I. -I..  -I. -I../include -Iinclude -I../src -Wdate-time -D_FORTIFY_SOURCE=2  -g -O2 -fdebug-prefix-map=/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1=. -Wformat -march=native -pipe -Wformat-security  -Wall -fexceptions -MT src/java_raw_api.lo -MD -MP -MF $depbase.Tpo -c -o src/java_raw_api.lo ../src/java_raw_api.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+libtool: compile:  icc.pl -std=gnu89 -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -Wdate-time -D_FORTIFY_SOURCE=2 -g -O2 -fdebug-prefix-map=/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1=. -Wformat -march=native -pipe -Wformat-security -Wall -fexceptions -MT src/java_raw_api.lo -MD -MP -MF src/.deps/java_raw_api.Tpo -c ../src/java_raw_api.c  -fPIC -DPIC -o src/.libs/java_raw_api.o
+libtool: compile:  icc.pl -std=gnu89 -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -Wdate-time -D_FORTIFY_SOURCE=2 -g -O2 -fdebug-prefix-map=/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1=. -Wformat -march=native -pipe -Wformat-security -Wall -fexceptions -MT src/java_raw_api.lo -MD -MP -MF src/.deps/java_raw_api.Tpo -c ../src/java_raw_api.c -o src/java_raw_api.o >/dev/null 2>&1
+depbase=`echo src/closures.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile icc.pl -std=gnu89 -DHAVE_CONFIG_H -I. -I..  -I. -I../include -Iinclude -I../src -Wdate-time -D_FORTIFY_SOURCE=2  -g -O2 -fdebug-prefix-map=/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1=. -Wformat -march=native -pipe -Wformat-security  -Wall -fexceptions -MT src/closures.lo -MD -MP -MF $depbase.Tpo -c -o src/closures.lo ../src/closures.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+libtool: compile:  icc.pl -std=gnu89 -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -Wdate-time -D_FORTIFY_SOURCE=2 -g -O2 -fdebug-prefix-map=/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1=. -Wformat -march=native -pipe -Wformat-security -Wall -fexceptions -MT src/closures.lo -MD -MP -MF src/.deps/closures.Tpo -c ../src/closures.c  -fPIC -DPIC -o src/.libs/closures.o
+../src/closures.c(502) (col. 7): warning #2218: result of call is not used
+../src/closures.c(514) (col. 7): warning #2218: result of call is not used
+libtool: compile:  icc.pl -std=gnu89 -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -Wdate-time -D_FORTIFY_SOURCE=2 -g -O2 -fdebug-prefix-map=/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1=. -Wformat -march=native -pipe -Wformat-security -Wall -fexceptions -MT src/closures.lo -MD -MP -MF src/.deps/closures.Tpo -c ../src/closures.c -o src/closures.o >/dev/null 2>&1
+depbase=`echo src/x86/ffi64.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile icc.pl -std=gnu89 -DHAVE_CONFIG_H -I. -I..  -I. -I../include -Iinclude -I../src -Wdate-time -D_FORTIFY_SOURCE=2  -g -O2 -fdebug-prefix-map=/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1=. -Wformat -march=native -pipe -Wformat-security  -Wall -fexceptions -MT src/x86/ffi64.lo -MD -MP -MF $depbase.Tpo -c -o src/x86/ffi64.lo ../src/x86/ffi64.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+libtool: compile:  icc.pl -std=gnu89 -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -Wdate-time -D_FORTIFY_SOURCE=2 -g -O2 -fdebug-prefix-map=/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1=. -Wformat -march=native -pipe -Wformat-security -Wall -fexceptions -MT src/x86/ffi64.lo -MD -MP -MF src/x86/.deps/ffi64.Tpo -c ../src/x86/ffi64.c  -fPIC -DPIC -o src/x86/.libs/ffi64.o
+../src/x86/ffi64.c(551) (col. 6): warning #191: type qualifier is meaningless on cast type
+../src/x86/ffi64.c(554) (col. 6): warning #191: type qualifier is meaningless on cast type
+libtool: compile:  icc.pl -std=gnu89 -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -Wdate-time -D_FORTIFY_SOURCE=2 -g -O2 -fdebug-prefix-map=/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1=. -Wformat -march=native -pipe -Wformat-security -Wall -fexceptions -MT src/x86/ffi64.lo -MD -MP -MF src/x86/.deps/ffi64.Tpo -c ../src/x86/ffi64.c -o src/x86/ffi64.o >/dev/null 2>&1
+depbase=`echo src/x86/unix64.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile icc.pl -std=gnu89 -DHAVE_CONFIG_H -I. -I..  -I. -I../include -Iinclude -I../src -Wdate-time -D_FORTIFY_SOURCE=2 -I. -I../include -Iinclude -I../src -g -O2 -fdebug-prefix-map=/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1=. -Wformat -march=native -pipe -Wformat-security -Wa,--gdwarf-2 -MT src/x86/unix64.lo -MD -MP -MF $depbase.Tpo -c -o src/x86/unix64.lo ../src/x86/unix64.S &&\
+mv -f $depbase.Tpo $depbase.Plo
+libtool: compile:  icc.pl -std=gnu89 -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -Wdate-time -D_FORTIFY_SOURCE=2 -I. -I../include -Iinclude -I../src -g -O2 -fdebug-prefix-map=/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1=. -Wformat -march=native -pipe -Wformat-security -Wa,--gdwarf-2 -MT src/x86/unix64.lo -MD -MP -MF src/x86/.deps/unix64.Tpo -c ../src/x86/unix64.S  -fPIC -DPIC -o src/x86/.libs/unix64.o
+<command-line>: warning: "__PIC__" redefined
+<built-in>: note: this is the location of the previous definition
+<command-line>: warning: "__pic__" redefined
+<built-in>: note: this is the location of the previous definition
+x86_64-linux-gnu-as: /lib/x86_64-linux-gnu/libz.so.1: no version information available (required by /usr/lib/x86_64-linux-gnu/libbfd-2.31.1-system.so)
+libtool: compile:  icc.pl -std=gnu89 -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -Wdate-time -D_FORTIFY_SOURCE=2 -I. -I../include -Iinclude -I../src -g -O2 -fdebug-prefix-map=/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1=. -Wformat -march=native -pipe -Wformat-security -Wa,--gdwarf-2 -MT src/x86/unix64.lo -MD -MP -MF src/x86/.deps/unix64.Tpo -c ../src/x86/unix64.S -o src/x86/unix64.o >/dev/null 2>&1
+depbase=`echo src/x86/ffi.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile icc.pl -std=gnu89 -DHAVE_CONFIG_H -I. -I..  -I. -I../include -Iinclude -I../src -Wdate-time -D_FORTIFY_SOURCE=2  -g -O2 -fdebug-prefix-map=/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1=. -Wformat -march=native -pipe -Wformat-security  -Wall -fexceptions -MT src/x86/ffi.lo -MD -MP -MF $depbase.Tpo -c -o src/x86/ffi.lo ../src/x86/ffi.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+libtool: compile:  icc.pl -std=gnu89 -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -Wdate-time -D_FORTIFY_SOURCE=2 -g -O2 -fdebug-prefix-map=/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1=. -Wformat -march=native -pipe -Wformat-security -Wall -fexceptions -MT src/x86/ffi.lo -MD -MP -MF src/x86/.deps/ffi.Tpo -c ../src/x86/ffi.c  -fPIC -DPIC -o src/x86/.libs/ffi.o
+libtool: compile:  icc.pl -std=gnu89 -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -Wdate-time -D_FORTIFY_SOURCE=2 -g -O2 -fdebug-prefix-map=/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1=. -Wformat -march=native -pipe -Wformat-security -Wall -fexceptions -MT src/x86/ffi.lo -MD -MP -MF src/x86/.deps/ffi.Tpo -c ../src/x86/ffi.c -o src/x86/ffi.o >/dev/null 2>&1
+depbase=`echo src/x86/sysv.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ./libtool  --tag=CC   --mode=compile icc.pl -std=gnu89 -DHAVE_CONFIG_H -I. -I..  -I. -I../include -Iinclude -I../src -Wdate-time -D_FORTIFY_SOURCE=2 -I. -I../include -Iinclude -I../src -g -O2 -fdebug-prefix-map=/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1=. -Wformat -march=native -pipe -Wformat-security -Wa,--gdwarf-2 -MT src/x86/sysv.lo -MD -MP -MF $depbase.Tpo -c -o src/x86/sysv.lo ../src/x86/sysv.S &&\
+mv -f $depbase.Tpo $depbase.Plo
+libtool: compile:  icc.pl -std=gnu89 -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -Wdate-time -D_FORTIFY_SOURCE=2 -I. -I../include -Iinclude -I../src -g -O2 -fdebug-prefix-map=/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1=. -Wformat -march=native -pipe -Wformat-security -Wa,--gdwarf-2 -MT src/x86/sysv.lo -MD -MP -MF src/x86/.deps/sysv.Tpo -c ../src/x86/sysv.S  -fPIC -DPIC -o src/x86/.libs/sysv.o
+<command-line>: warning: "__PIC__" redefined
+<built-in>: note: this is the location of the previous definition
+<command-line>: warning: "__pic__" redefined
+<built-in>: note: this is the location of the previous definition
+x86_64-linux-gnu-as: /lib/x86_64-linux-gnu/libz.so.1: no version information available (required by /usr/lib/x86_64-linux-gnu/libbfd-2.31.1-system.so)
+libtool: compile:  icc.pl -std=gnu89 -DHAVE_CONFIG_H -I. -I.. -I. -I../include -Iinclude -I../src -Wdate-time -D_FORTIFY_SOURCE=2 -I. -I../include -Iinclude -I../src -g -O2 -fdebug-prefix-map=/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1=. -Wformat -march=native -pipe -Wformat-security -Wa,--gdwarf-2 -MT src/x86/sysv.lo -MD -MP -MF src/x86/.deps/sysv.Tpo -c ../src/x86/sysv.S -o src/x86/sysv.o >/dev/null 2>&1
+/bin/bash ./libtool  --tag=CC   --mode=link icc.pl -std=gnu89  -g -O2 -fdebug-prefix-map=/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1=. -Wformat -march=native -pipe -Wformat-security  -Wall -fexceptions  -Wl,-z,defs  -o libffi_convenience.la  src/prep_cif.lo src/types.lo src/raw_api.lo src/java_raw_api.lo src/closures.lo                                src/x86/ffi64.lo src/x86/unix64.lo src/x86/ffi.lo src/x86/sysv.lo           
+libtool: link: xiar.pl cru .libs/libffi_convenience.a src/.libs/prep_cif.o src/.libs/types.o src/.libs/raw_api.o src/.libs/java_raw_api.o src/.libs/closures.o src/x86/.libs/ffi64.o src/x86/.libs/unix64.o src/x86/.libs/ffi.o src/x86/.libs/sysv.o 
+xiar: executing 'ar'
+ar: /lib/x86_64-linux-gnu/libz.so.1: no version information available (required by /usr/lib/x86_64-linux-gnu/libbfd-2.31.1-system.so)
+ar: `u' modifier ignored since `D' is the default (see `U')
+libtool: link: /usr/bin/x86_64-linux-gnu-ranlib .libs/libffi_convenience.a
+/usr/bin/x86_64-linux-gnu-ranlib: /lib/x86_64-linux-gnu/libz.so.1: no version information available (required by /usr/lib/x86_64-linux-gnu/libbfd-2.31.1-system.so)
+libtool: link: ( cd ".libs" && rm -f "libffi_convenience.la" && ln -s "../libffi_convenience.la" "libffi_convenience.la" )
+/bin/bash ./libtool  --tag=CC   --mode=link icc.pl -std=gnu89  -g -O2 -fdebug-prefix-map=/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1=. -Wformat -march=native -pipe -Wformat-security  -Wall -fexceptions -no-undefined -version-info `grep -v '^#' ../libtool-version`  '-Wl,-z,defs'  -Wl,-z,defs  -o libffi.la -rpath /usr/lib src/prep_cif.lo src/types.lo src/raw_api.lo src/java_raw_api.lo src/closures.lo                                src/x86/ffi64.lo src/x86/unix64.lo src/x86/ffi.lo src/x86/sysv.lo           
+libtool: link: icc.pl -std=gnu89 -shared  -fPIC -DPIC  src/.libs/prep_cif.o src/.libs/types.o src/.libs/raw_api.o src/.libs/java_raw_api.o src/.libs/closures.o src/x86/.libs/ffi64.o src/x86/.libs/unix64.o src/x86/.libs/ffi.o src/x86/.libs/sysv.o    -g -O2 -march=native -Wl,-z -Wl,defs -Wl,-z -Wl,defs   -Wl,-soname -Wl,libffi.so.6 -o .libs/libffi.so.6.0.4
+ipo: warning #11003: no IR in object file src/x86/.libs/unix64.o; was the source file compiled with -ipo
+ipo: warning #11003: no IR in object file src/x86/.libs/sysv.o; was the source file compiled with -ipo
+ipo: remark #11000: performing multi-file optimizations
+ipo: remark #11006: generating object file /tmp/intel/ipo_iccveO6Qb.o
+x86_64-linux-gnu-ld: /lib/x86_64-linux-gnu/libz.so.1: no version information available (required by /usr/lib/x86_64-linux-gnu/libbfd-2.31.1-system.so)
+libtool: link: (cd ".libs" && rm -f "libffi.so.6" && ln -s "libffi.so.6.0.4" "libffi.so.6")
+libtool: link: (cd ".libs" && rm -f "libffi.so" && ln -s "libffi.so.6.0.4" "libffi.so")
+libtool: link: xiar.pl cru .libs/libffi.a  src/prep_cif.o src/types.o src/raw_api.o src/java_raw_api.o src/closures.o src/x86/ffi64.o src/x86/unix64.o src/x86/ffi.o src/x86/sysv.o
+xiar: executing 'ar'
+ar: /lib/x86_64-linux-gnu/libz.so.1: no version information available (required by /usr/lib/x86_64-linux-gnu/libbfd-2.31.1-system.so)
+ar: `u' modifier ignored since `D' is the default (see `U')
+libtool: link: /usr/bin/x86_64-linux-gnu-ranlib .libs/libffi.a
+/usr/bin/x86_64-linux-gnu-ranlib: /lib/x86_64-linux-gnu/libz.so.1: no version information available (required by /usr/lib/x86_64-linux-gnu/libbfd-2.31.1-system.so)
+libtool: link: ( cd ".libs" && rm -f "libffi.la" && ln -s "../libffi.la" "libffi.la" )
+make[3]: Leaving directory '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/build'
+make[2]: Leaving directory '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/build'
+make[1]: Leaving directory '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/build'
+/usr/bin/make -C build html
+make[1]: Entering directory '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/build'
+Making html in include
+make[2]: Entering directory '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/build/include'
+make[2]: Nothing to be done for 'html'.
+make[2]: Leaving directory '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/build/include'
+Making html in testsuite
+make[2]: Entering directory '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/build/testsuite'
+make[2]: Nothing to be done for 'html'.
+make[2]: Leaving directory '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/build/testsuite'
+Making html in man
+make[2]: Entering directory '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/build/man'
+make[2]: Nothing to be done for 'html'.
+make[2]: Leaving directory '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/build/man'
+make[2]: Entering directory '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/build'
+rm -rf doc/libffi.htp
+if /bin/bash /dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/missing makeinfo  --html   -I doc -I ../doc \
+ -o doc/libffi.htp `test -f 'doc/libffi.texi' || echo '../'`doc/libffi.texi; \
+then \
+  rm -rf doc/libffi.html && mv doc/libffi.htp doc/libffi.html; \
+else \
+  rm -rf doc/libffi.htp; exit 1; \
+fi
+make[2]: Leaving directory '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/build'
+make[1]: Leaving directory '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/build'
+touch stamp-build
+ fakeroot debian/rules binary
+dh_testdir
+dh_testroot
+dh_prep
+	rm -f -- debian/libffi-dev.substvars debian/libffi6.substvars debian/libffi6-dbg.substvars debian/libffi6-udeb.substvars
+	rm -fr -- debian/.debhelper/generated/libffi-dev/ debian/libffi-dev/ debian/tmp/ debian/.debhelper/generated/libffi6/ debian/libffi6/ debian/.debhelper/generated/libffi6-dbg/ debian/libffi6-dbg/ debian/.debhelper/generated/libffi6-udeb/ debian/libffi6-udeb/
+dh_installdirs -s
+dh_installdirs: -s/--same-arch is deprecated; please use -a/--arch instead
+dh_installdirs: This feature will be removed in compat 12.
+	install -d debian/libffi-dev
+	install -d debian/libffi6
+	install -d debian/libffi6-dbg
+	install -d debian/libffi6-udeb
+/usr/bin/make -C build DESTDIR=/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/debian/tmp install
+make[1]: Entering directory '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/build'
+Making install in include
+make[2]: Entering directory '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/build/include'
+make[3]: Entering directory '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/build/include'
+make[3]: Nothing to be done for 'install-exec-am'.
+ /bin/mkdir -p '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/debian/tmp/usr/include'
+ /usr/bin/install -m 644 ffi.h ffitarget.h '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/debian/tmp/usr/include'
+make[3]: Leaving directory '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/build/include'
+make[2]: Leaving directory '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/build/include'
+Making install in testsuite
+make[2]: Entering directory '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/build/testsuite'
+make[3]: Entering directory '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/build/testsuite'
+make[3]: Nothing to be done for 'install-exec-am'.
+make[3]: Nothing to be done for 'install-data-am'.
+make[3]: Leaving directory '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/build/testsuite'
+make[2]: Leaving directory '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/build/testsuite'
+Making install in man
+make[2]: Entering directory '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/build/man'
+make[3]: Entering directory '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/build/man'
+make[3]: Nothing to be done for 'install-exec-am'.
+ /bin/mkdir -p '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/debian/tmp/usr/share/man/man3'
+ /usr/bin/install -m 644 ../../man/ffi.3 ../../man/ffi_call.3 ../../man/ffi_prep_cif.3 ../../man/ffi_prep_cif_var.3 '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/debian/tmp/usr/share/man/man3'
+make[3]: Leaving directory '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/build/man'
+make[2]: Leaving directory '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/build/man'
+make[2]: Entering directory '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/build'
+make[3]: Entering directory '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/build'
+ /bin/mkdir -p '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/debian/tmp/usr/lib'
+ /bin/bash ./libtool   --mode=install /usr/bin/install   libffi.la '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/debian/tmp/usr/lib'
+libtool: install: /usr/bin/install .libs/libffi.so.6.0.4 /dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/debian/tmp/usr/lib/libffi.so.6.0.4
+libtool: install: (cd /dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/debian/tmp/usr/lib && { ln -s -f libffi.so.6.0.4 libffi.so.6 || { rm -f libffi.so.6 && ln -s libffi.so.6.0.4 libffi.so.6; }; })
+libtool: install: (cd /dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/debian/tmp/usr/lib && { ln -s -f libffi.so.6.0.4 libffi.so || { rm -f libffi.so && ln -s libffi.so.6.0.4 libffi.so; }; })
+libtool: install: /usr/bin/install .libs/libffi.lai /dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/debian/tmp/usr/lib/libffi.la
+libtool: install: /usr/bin/install .libs/libffi.a /dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/debian/tmp/usr/lib/libffi.a
+libtool: install: chmod 644 /dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/debian/tmp/usr/lib/libffi.a
+libtool: install: /usr/bin/x86_64-linux-gnu-ranlib /dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/debian/tmp/usr/lib/libffi.a
+/usr/bin/x86_64-linux-gnu-ranlib: /lib/x86_64-linux-gnu/libz.so.1: no version information available (required by /usr/lib/x86_64-linux-gnu/libbfd-2.31.1-system.so)
+libtool: warning: remember to run 'libtool --finish /usr/lib'
+ /bin/mkdir -p '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/debian/tmp/usr/share/info'
+ /usr/bin/install -m 644 ../doc/libffi.info '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/debian/tmp/usr/share/info'
+ install-info --info-dir='/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/debian/tmp/usr/share/info' '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/debian/tmp/usr/share/info/libffi.info'
+ /bin/mkdir -p '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/debian/tmp/usr/lib/pkgconfig'
+ /usr/bin/install -m 644 libffi.pc '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/debian/tmp/usr/lib/pkgconfig'
+make[3]: Leaving directory '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/build'
+make[2]: Leaving directory '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/build'
+make[1]: Leaving directory '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1/build'
+mkdir -p debian/tmp/usr/lib/x86_64-linux-gnu
+mv debian/tmp/usr/lib/* debian/tmp/usr/lib/x86_64-linux-gnu/.
+mv: cannot move 'debian/tmp/usr/lib/x86_64-linux-gnu' to a subdirectory of itself, 'debian/tmp/usr/lib/x86_64-linux-gnu/./x86_64-linux-gnu'
+make: [debian/rules:90: install] Error 1 (ignored)
+cp -p build/.libs/libffi_convenience.a \
+	debian/tmp/usr/lib/x86_64-linux-gnu/libffi_pic.a
+mkdir -p debian/libffi-dev/usr/share/doc/libffi6
+cp -a build/doc/libffi.html debian/libffi-dev/usr/share/doc/libffi6/html
+dh_install -s --sourcedir=debian/tmp
+dh_install: -s/--same-arch is deprecated; please use -a/--arch instead
+dh_install: This feature will be removed in compat 12.
+	install -d debian/libffi-dev//usr/include
+	cp --reflink=auto -a debian/tmp/usr/include/ffi.h debian/tmp/usr/include/ffitarget.h debian/libffi-dev//usr/include/
+	install -d debian/libffi-dev//usr/lib/x86_64-linux-gnu
+	cp --reflink=auto -a debian/tmp/usr/lib/x86_64-linux-gnu/libffi.a debian/tmp/usr/lib/x86_64-linux-gnu/libffi.so debian/tmp/usr/lib/x86_64-linux-gnu/libffi_pic.a debian/libffi-dev//usr/lib/x86_64-linux-gnu/
+	install -d debian/libffi-dev//usr/lib/x86_64-linux-gnu/pkgconfig
+	cp --reflink=auto -a debian/tmp/usr/lib/x86_64-linux-gnu/pkgconfig/libffi.pc debian/libffi-dev//usr/lib/x86_64-linux-gnu/pkgconfig/
+	cp --reflink=auto -a debian/tmp/usr/share/info debian/tmp/usr/share/man debian/libffi-dev//usr/share/
+	install -d debian/.debhelper/generated/libffi-dev
+	install -d debian/libffi6//usr/lib/x86_64-linux-gnu
+	cp --reflink=auto -a debian/tmp/usr/lib/x86_64-linux-gnu/libffi.so.6 debian/tmp/usr/lib/x86_64-linux-gnu/libffi.so.6.0.4 debian/libffi6//usr/lib/x86_64-linux-gnu/
+	install -d debian/.debhelper/generated/libffi6
+	install -d debian/.debhelper/generated/libffi6-dbg
+	install -d debian/libffi6-udeb/usr/lib/
+	cp --reflink=auto -a debian/tmp/usr/lib/x86_64-linux-gnu/libffi.so.6 debian/tmp/usr/lib/x86_64-linux-gnu/libffi.so.6.0.4 debian/libffi6-udeb/usr/lib//
+	install -d debian/.debhelper/generated/libffi6-udeb
+mkdir -p debian/libffi-dev/usr/include/x86_64-linux-gnu
+mv debian/libffi-dev/usr/include/*.h \
+	debian/libffi-dev/usr/include/x86_64-linux-gnu/
+dh_testdir
+dh_testroot
+dh_installchangelogs -s
+dh_installchangelogs: -s/--same-arch is deprecated; please use -a/--arch instead
+dh_installchangelogs: This feature will be removed in compat 12.
+	install -d debian/libffi-dev/usr/share/doc/libffi-dev
+	install -p -m0644 debian/changelog debian/libffi-dev/usr/share/doc/libffi-dev/changelog.Debian
+	install -p -m0644 ./ChangeLog debian/libffi-dev/usr/share/doc/libffi-dev/changelog
+	install -d debian/libffi6/usr/share/doc/libffi6
+	install -p -m0644 debian/changelog debian/libffi6/usr/share/doc/libffi6/changelog.Debian
+	install -p -m0644 ./ChangeLog debian/libffi6/usr/share/doc/libffi6/changelog
+	install -d debian/libffi6-dbg/usr/share/doc/libffi6-dbg
+	install -p -m0644 debian/changelog debian/libffi6-dbg/usr/share/doc/libffi6-dbg/changelog.Debian
+	install -p -m0644 ./ChangeLog debian/libffi6-dbg/usr/share/doc/libffi6-dbg/changelog
+rm -f debian/libffi6/usr/share/doc/libffi6/changelog
+dh_installdocs -s
+dh_installdocs: -s/--same-arch is deprecated; please use -a/--arch instead
+dh_installdocs: This feature will be removed in compat 12.
+	install -p -m0644 debian/copyright debian/libffi-dev/usr/share/doc/libffi-dev/copyright
+	install -p -m0644 debian/copyright debian/libffi6/usr/share/doc/libffi6/copyright
+	install -p -m0644 debian/copyright debian/libffi6-dbg/usr/share/doc/libffi6-dbg/copyright
+dh_installinfo -plibffi-dev doc/libffi.info
+rm -f debian/libffi-dev/usr/share/info/dir*
+cp -p ChangeLog debian/libffi-dev/usr/share/doc/libffi6/changelog
+cp -p ChangeLog.* debian/libffi-dev/usr/share/doc/libffi6/
+rm -rf debian/libffi-dev/usr/share/doc/libffi-dev
+ln -s libffi6 debian/libffi-dev/usr/share/doc/libffi-dev
+rm -rf debian/libffi6-dbg/usr/share/doc/libffi6-dbg
+ln -s libffi6 debian/libffi6-dbg/usr/share/doc/libffi6-dbg
+dh_strip -s --dbg-package=libffi6-dbg
+dh_strip: -s/--same-arch is deprecated; please use -a/--arch instead
+dh_strip: This feature will be removed in compat 12.
+	strip --strip-debug --remove-section=.comment --remove-section=.note --enable-deterministic-archives debian/libffi-dev/usr/lib/x86_64-linux-gnu/libffi_pic.a
+strip: /lib/x86_64-linux-gnu/libz.so.1: no version information available (required by /usr/lib/x86_64-linux-gnu/libbfd-2.31.1-system.so)
+	strip --strip-debug --remove-section=.comment --remove-section=.note --enable-deterministic-archives debian/libffi-dev/usr/lib/x86_64-linux-gnu/libffi.a
+strip: /lib/x86_64-linux-gnu/libz.so.1: no version information available (required by /usr/lib/x86_64-linux-gnu/libbfd-2.31.1-system.so)
+	install -d debian/libffi6-dbg/usr/lib/debug/.build-id/61
+	objcopy --only-keep-debug --compress-debug-sections debian/libffi6/usr/lib/x86_64-linux-gnu/libffi.so.6.0.4 debian/libffi6-dbg/usr/lib/debug/.build-id/61/11f622c35f5627a0dafb6b9508e94493083718.debug
+objcopy: /lib/x86_64-linux-gnu/libz.so.1: no version information available (required by /usr/lib/x86_64-linux-gnu/libbfd-2.31.1-system.so)
+	chmod 0644 -- debian/libffi6-dbg/usr/lib/debug/.build-id/61/11f622c35f5627a0dafb6b9508e94493083718.debug
+	chown 0:0 -- debian/libffi6-dbg/usr/lib/debug/.build-id/61/11f622c35f5627a0dafb6b9508e94493083718.debug
+	strip --remove-section=.comment --remove-section=.note debian/libffi6/usr/lib/x86_64-linux-gnu/libffi.so.6.0.4
+strip: /lib/x86_64-linux-gnu/libz.so.1: no version information available (required by /usr/lib/x86_64-linux-gnu/libbfd-2.31.1-system.so)
+	objcopy --add-gnu-debuglink debian/libffi6-dbg/usr/lib/debug/.build-id/61/11f622c35f5627a0dafb6b9508e94493083718.debug debian/libffi6/usr/lib/x86_64-linux-gnu/libffi.so.6.0.4
+objcopy: /lib/x86_64-linux-gnu/libz.so.1: no version information available (required by /usr/lib/x86_64-linux-gnu/libbfd-2.31.1-system.so)
+	chmod 0644 -- debian/libffi6-dbg/usr/lib/debug/.build-id/61/11f622c35f5627a0dafb6b9508e94493083718.debug
+	chown 0:0 -- debian/libffi6-dbg/usr/lib/debug/.build-id/61/11f622c35f5627a0dafb6b9508e94493083718.debug
+	strip --remove-section=.comment --remove-section=.note debian/libffi6-udeb/usr/lib/libffi.so.6.0.4
+strip: /lib/x86_64-linux-gnu/libz.so.1: no version information available (required by /usr/lib/x86_64-linux-gnu/libbfd-2.31.1-system.so)
+	objcopy --add-gnu-debuglink debian/libffi6-dbg/usr/lib/debug/.build-id/61/11f622c35f5627a0dafb6b9508e94493083718.debug debian/libffi6-udeb/usr/lib/libffi.so.6.0.4
+objcopy: /lib/x86_64-linux-gnu/libz.so.1: no version information available (required by /usr/lib/x86_64-linux-gnu/libbfd-2.31.1-system.so)
+	install -d debian/.debhelper/libffi6-dbg
+dh_compress -s
+dh_compress: -s/--same-arch is deprecated; please use -a/--arch instead
+dh_compress: This feature will be removed in compat 12.
+	cd debian/libffi-dev
+	cd debian/libffi6
+	cd debian/libffi6-dbg
+	cd debian/libffi6-udeb
+	cd '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1'
+	chmod a-x usr/share/doc/libffi6/changelog.Debian
+	cd '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1'
+	chmod a-x usr/share/doc/libffi6/ChangeLog.libffi usr/share/doc/libffi6/ChangeLog.libffi-3.1 usr/share/doc/libffi6/ChangeLog.v1 usr/share/doc/libffi6/changelog usr/share/info/libffi.info usr/share/man/man3/ffi.3 usr/share/man/man3/ffi_call.3 usr/share/man/man3/ffi_prep_cif.3 usr/share/man/man3/ffi_prep_cif_var.3
+	gzip -9nf usr/share/doc/libffi6/changelog.Debian
+	gzip -9nf usr/share/doc/libffi6/ChangeLog.libffi usr/share/doc/libffi6/ChangeLog.libffi-3.1 usr/share/doc/libffi6/ChangeLog.v1 usr/share/doc/libffi6/changelog usr/share/info/libffi.info usr/share/man/man3/ffi.3 usr/share/man/man3/ffi_call.3 usr/share/man/man3/ffi_prep_cif.3 usr/share/man/man3/ffi_prep_cif_var.3
+	cd '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1'
+	cd '/dev/shm/python3.7/python3/clean/python3.7/ffi/libffi-3.2.1'
+dh_fixperms -s
+dh_fixperms: -s/--same-arch is deprecated; please use -a/--arch instead
+dh_fixperms: This feature will be removed in compat 12.
+	find debian/libffi-dev -true -print0 2>/dev/null | xargs -0r chown --no-dereference 0:0
+	find debian/libffi6 -true -print0 2>/dev/null | xargs -0r chown --no-dereference 0:0
+	find debian/libffi6-dbg -true -print0 2>/dev/null | xargs -0r chown --no-dereference 0:0
+	find debian/libffi6-udeb -true -print0 2>/dev/null | xargs -0r chown --no-dereference 0:0
+	find debian/libffi6-dbg ! -type l -a -true -a -true -print0 2>/dev/null | xargs -0r chmod go=rX,u+rw,a-s
+	find debian/libffi-dev ! -type l -a -true -a -true -print0 2>/dev/null | xargs -0r chmod go=rX,u+rw,a-s
+	find debian/libffi6 ! -type l -a -true -a -true -print0 2>/dev/null | xargs -0r chmod go=rX,u+rw,a-s
+	find debian/libffi6-udeb ! -type l -a -true -a -true -print0 2>/dev/null | xargs -0r chmod go=rX,u+rw,a-s
+	find debian/libffi6-dbg/usr/share/doc -type f -a -true -a ! -regex 'debian/libffi6-dbg/usr/share/doc/[^/]*/examples/.*' -print0 2>/dev/null | xargs -0r chmod 0644
+	find debian/libffi6/usr/share/doc -type f -a -true -a ! -regex 'debian/libffi6/usr/share/doc/[^/]*/examples/.*' -print0 2>/dev/null | xargs -0r chmod 0644
+	find debian/libffi-dev/usr/share/doc -type f -a -true -a ! -regex 'debian/libffi-dev/usr/share/doc/[^/]*/examples/.*' -print0 2>/dev/null | xargs -0r chmod 0644
+	find debian/libffi6-udeb -type f \( -name '*.so.*' -o -name '*.so' -o -name '*.la' -o -name '*.a' -o -name '*.js' -o -name '*.css' -o -name '*.scss' -o -name '*.sass' -o -name '*.jpeg' -o -name '*.jpg' -o -name '*.png' -o -name '*.gif' -o -name '*.cmxs' \) -a -true -a -true -print0 2>/dev/null | xargs -0r chmod 0644
+	find debian/libffi6-dbg/usr/share/doc -type d -a -true -a -true -print0 2>/dev/null | xargs -0r chmod 0755
+	find debian/libffi-dev/usr/share/doc -type d -a -true -a -true -print0 2>/dev/null | xargs -0r chmod 0755
+	find debian/libffi6/usr/share/doc -type d -a -true -a -true -print0 2>/dev/null | xargs -0r chmod 0755
+	find debian/libffi6-udeb/usr/lib -type f -name '*.ali' -a -true -a -true -print0 2>/dev/null | xargs -0r chmod uga-w
+	find debian/libffi6-dbg -type f \( -name '*.so.*' -o -name '*.so' -o -name '*.la' -o -name '*.a' -o -name '*.js' -o -name '*.css' -o -name '*.scss' -o -name '*.sass' -o -name '*.jpeg' -o -name '*.jpg' -o -name '*.png' -o -name '*.gif' -o -name '*.cmxs' \) -a -true -a -true -print0 2>/dev/null | xargs -0r chmod 0644
+	find debian/libffi6 -type f \( -name '*.so.*' -o -name '*.so' -o -name '*.la' -o -name '*.a' -o -name '*.js' -o -name '*.css' -o -name '*.scss' -o -name '*.sass' -o -name '*.jpeg' -o -name '*.jpg' -o -name '*.png' -o -name '*.gif' -o -name '*.cmxs' \) -a -true -a -true -print0 2>/dev/null | xargs -0r chmod 0644
+	find debian/libffi-dev/usr/share/man debian/libffi-dev/usr/include -type f -a -true -a -true -print0 2>/dev/null | xargs -0r chmod 0644
+	find debian/libffi6-dbg/usr/lib -type f -name '*.ali' -a -true -a -true -print0 2>/dev/null | xargs -0r chmod uga-w
+	find debian/libffi6/usr/lib -type f -name '*.ali' -a -true -a -true -print0 2>/dev/null | xargs -0r chmod uga-w
+	find debian/libffi-dev -type f \( -name '*.so.*' -o -name '*.so' -o -name '*.la' -o -name '*.a' -o -name '*.js' -o -name '*.css' -o -name '*.scss' -o -name '*.sass' -o -name '*.jpeg' -o -name '*.jpg' -o -name '*.png' -o -name '*.gif' -o -name '*.cmxs' \) -a -true -a -true -print0 2>/dev/null | xargs -0r chmod 0644
+	find debian/libffi-dev/usr/lib -type f -name '*.ali' -a -true -a -true -print0 2>/dev/null | xargs -0r chmod uga-w
+dh_makeshlibs -plibffi6 --add-udeb=libffi6-udeb
+	rm -f debian/libffi6/DEBIAN/shlibs
+objdump: /lib/x86_64-linux-gnu/libz.so.1: no version information available (required by /usr/lib/x86_64-linux-gnu/libbfd-2.31.1-system.so)
+	install -d debian/libffi6/DEBIAN
+	echo "libffi 6 libffi6" >> debian/libffi6/DEBIAN/shlibs
+	echo "udeb: libffi 6 libffi6-udeb" >> debian/libffi6/DEBIAN/shlibs
+	chmod 0644 -- debian/libffi6/DEBIAN/shlibs
+	chown 0:0 -- debian/libffi6/DEBIAN/shlibs
+	dpkg-gensymbols -plibffi6 -Idebian/libffi6.symbols.amd64 -Pdebian/libffi6 -edebian/libffi6/usr/lib/x86_64-linux-gnu/libffi.so.6.0.4
+objdump: /lib/x86_64-linux-gnu/libz.so.1: no version information available (required by /usr/lib/x86_64-linux-gnu/libbfd-2.31.1-system.so)
+dpkg-gensymbols: warning: some new symbols appeared in the symbols file: see diff output below
+dpkg-gensymbols: warning: debian/libffi6/DEBIAN/symbols doesn't match completely debian/libffi6.symbols.amd64
+--- debian/libffi6.symbols.amd64 (libffi6_3.2.1-9_amd64)
++++ dpkg-gensymbolsuOAfdv	2019-01-14 07:25:00.803748605 +0100
+@@ -1,4 +1,20 @@
+ libffi.so.6 libffi6 #MINVER#
++ __cacheSize@Base 3.2.1-9
++ __intel_avx_rep_memset@Base 3.2.1-9
++ __intel_memset@Base 3.2.1-9
++ __intel_mic_avx512f_memset@Base 3.2.1-9
++ __intel_new_memset@Base 3.2.1-9
++ __intel_sse4_strchr@Base 3.2.1-9
++ __intel_sse4_strend@Base 3.2.1-9
++ __intel_sse4_strlen@Base 3.2.1-9
++ __intel_sse4_strncmp@Base 3.2.1-9
++ __intel_ssse3_memcpy@Base 3.2.1-9
++ _intel_fast_memset.A@Base 3.2.1-9
++ _intel_fast_memset.J@Base 3.2.1-9
++ _intel_fast_memset.V@Base 3.2.1-9
++ _intel_fast_memset.Z@Base 3.2.1-9
++ _intel_fast_memset.a@Base 3.2.1-9
++ _intel_fast_memset@Base 3.2.1-9
+  ffi_call@Base 3.0.4
+  ffi_call_unix64@Base 3.0.4
+  ffi_closure_alloc@Base 3.0.4
+	mv debian/.debhelper/generated/libffi6/triggers.new debian/.debhelper/generated/libffi6/triggers
+dh_makeshlibs -s -Nlibffi6
+dh_makeshlibs: -s/--same-arch is deprecated; please use -a/--arch instead
+dh_makeshlibs: This feature will be removed in compat 12.
+	rm -f debian/libffi-dev/DEBIAN/shlibs
+	rm -f debian/libffi6-dbg/DEBIAN/shlibs
+dh_installdeb -s
+dh_installdeb: -s/--same-arch is deprecated; please use -a/--arch instead
+dh_installdeb: This feature will be removed in compat 12.
+	install -d debian/libffi-dev/DEBIAN
+	install -p -m0644 debian/.debhelper/generated/libffi6/triggers debian/libffi6/DEBIAN/triggers
+	install -d debian/libffi6-dbg/DEBIAN
+	install -d debian/libffi6-udeb/DEBIAN
+dh_shlibdeps -s
+dh_shlibdeps: -s/--same-arch is deprecated; please use -a/--arch instead
+dh_shlibdeps: This feature will be removed in compat 12.
+	dpkg-shlibdeps -Tdebian/libffi6.substvars debian/libffi6/usr/lib/x86_64-linux-gnu/libffi.so.6.0.4
+	dpkg-shlibdeps -Tdebian/libffi6-udeb.substvars -tudeb debian/libffi6-udeb/usr/lib/libffi.so.6.0.4
+objdump: /lib/x86_64-linux-gnu/libz.so.1: no version information available (required by /usr/lib/x86_64-linux-gnu/libbfd-2.31.1-system.so)
+objdump: /lib/x86_64-linux-gnu/libz.so.1: no version information available (required by /usr/lib/x86_64-linux-gnu/libbfd-2.31.1-system.so)
+objdump: /lib/x86_64-linux-gnu/libz.so.1: no version information available (required by /usr/lib/x86_64-linux-gnu/libbfd-2.31.1-system.so)
+objdump: /lib/x86_64-linux-gnu/libz.so.1: no version information available (required by /usr/lib/x86_64-linux-gnu/libbfd-2.31.1-system.so)
+dpkg-shlibdeps: warning: package could avoid a useless dependency if debian/libffi6-udeb/usr/lib/libffi.so.6.0.4 was not linked against libpthread.so.0 (it uses none of the library's symbols)
+dh_gencontrol -s
+dh_gencontrol: -s/--same-arch is deprecated; please use -a/--arch instead
+dh_gencontrol: This feature will be removed in compat 12.
+	echo misc:Depends= >> debian/libffi-dev.substvars
+	echo misc:Pre-Depends= >> debian/libffi-dev.substvars
+	dpkg-gencontrol -plibffi-dev -ldebian/changelog -Tdebian/libffi-dev.substvars -Pdebian/libffi-dev
+	echo misc:Depends= >> debian/libffi6.substvars
+	echo misc:Pre-Depends= >> debian/libffi6.substvars
+	dpkg-gencontrol -plibffi6 -ldebian/changelog -Tdebian/libffi6.substvars -Pdebian/libffi6
+	echo misc:Depends= >> debian/libffi6-dbg.substvars
+	echo misc:Pre-Depends= >> debian/libffi6-dbg.substvars
+	dpkg-gencontrol -plibffi6-dbg -ldebian/changelog -Tdebian/libffi6-dbg.substvars -Pdebian/libffi6-dbg -DBuild-Ids=6111f622c35f5627a0dafb6b9508e94493083718
+	echo misc:Depends= >> debian/libffi6-udeb.substvars
+	echo misc:Pre-Depends= >> debian/libffi6-udeb.substvars
+	dpkg-gencontrol -plibffi6-udeb -ldebian/changelog -Tdebian/libffi6-udeb.substvars -Pdebian/libffi6-udeb
+dpkg-gencontrol: warning: Depends field of package libffi6-dbg: substitution variable ${shlibs:Depends} used, but is not defined
+	chmod 0644 -- debian/libffi6-dbg/DEBIAN/control
+	chown 0:0 -- debian/libffi6-dbg/DEBIAN/control
+	chmod 0644 -- debian/libffi-dev/DEBIAN/control
+	chown 0:0 -- debian/libffi-dev/DEBIAN/control
+	chmod 0644 -- debian/libffi6/DEBIAN/control
+	chown 0:0 -- debian/libffi6/DEBIAN/control
+	chmod 0644 -- debian/libffi6-udeb/DEBIAN/control
+	chown 0:0 -- debian/libffi6-udeb/DEBIAN/control
+dh_md5sums -s
+dh_md5sums: -s/--same-arch is deprecated; please use -a/--arch instead
+dh_md5sums: This feature will be removed in compat 12.
+	cd debian/libffi6 >/dev/null && xargs -r0 md5sum | perl -pe 'if (s@^\\@@) { s/\\\\/\\/g; }' > DEBIAN/md5sums
+	cd debian/libffi-dev >/dev/null && xargs -r0 md5sum | perl -pe 'if (s@^\\@@) { s/\\\\/\\/g; }' > DEBIAN/md5sums
+	cd debian/libffi6-dbg >/dev/null && xargs -r0 md5sum | perl -pe 'if (s@^\\@@) { s/\\\\/\\/g; }' > DEBIAN/md5sums
+	chmod 0644 -- debian/libffi6/DEBIAN/md5sums
+	chown 0:0 -- debian/libffi6/DEBIAN/md5sums
+	chmod 0644 -- debian/libffi6-dbg/DEBIAN/md5sums
+	chown 0:0 -- debian/libffi6-dbg/DEBIAN/md5sums
+	chmod 0644 -- debian/libffi-dev/DEBIAN/md5sums
+	chown 0:0 -- debian/libffi-dev/DEBIAN/md5sums
+dh_builddeb -s
+dh_builddeb: -s/--same-arch is deprecated; please use -a/--arch instead
+dh_builddeb: This feature will be removed in compat 12.
+	dpkg-deb --build debian/libffi-dev ..
+	dpkg-deb --build debian/libffi6 ..
+	dpkg-deb --build debian/libffi6-dbg ..
+dpkg-deb: building package 'libffi-dev' in '../libffi-dev_3.2.1-9_amd64.deb'.
+dpkg-deb: building package 'libffi6-dbg' in '../libffi6-dbg_3.2.1-9_amd64.deb'.
+dpkg-deb: building package 'libffi6' in '../libffi6_3.2.1-9_amd64.deb'.
+	install -d debian/.debhelper/scratch-space/build-libffi6-udeb
+	dpkg-deb -z9 --uniform-compression -v -Zxz -Sextreme --build debian/libffi6-udeb debian/.debhelper/scratch-space/build-libffi6-udeb
+dpkg-deb: building package 'libffi6-udeb' in 'debian/.debhelper/scratch-space/build-libffi6-udeb/libffi6-udeb_3.2.1-9_amd64.deb'.
+	Renaming libffi6-udeb_3.2.1-9_amd64.deb to libffi6-udeb_3.2.1-9_amd64.udeb
+	mv debian/.debhelper/scratch-space/build-libffi6-udeb/libffi6-udeb_3.2.1-9_amd64.deb ../libffi6-udeb_3.2.1-9_amd64.udeb
+FAKEROOTKEY=1531430441 LD_LIBRARY_PATH= LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libfakeroot/libfakeroot-sysv.so debian/rules binary
+ dpkg-genbuildinfo --build=binary
+ dpkg-genchanges --build=binary >../libffi_3.2.1-9_amd64.changes
+dpkg-genchanges: info: binary-only upload (no source code included)
+ dpkg-source -Zxz -z1 --after-build .
+dpkg-buildpackage: info: binary-only upload (no source included)
+Now running lintian libffi_3.2.1-9_amd64.changes ...
+strings: /lib/x86_64-linux-gnu/libz.so.1: no version information available (required by /usr/lib/x86_64-linux-gnu/libbfd-2.31.1-system.so)
+strings: /lib/x86_64-linux-gnu/libz.so.1: no version information available (required by /usr/lib/x86_64-linux-gnu/libbfd-2.31.1-system.so)
+/usr/bin/ar: /lib/x86_64-linux-gnu/libz.so.1: no version information available (required by /usr/lib/x86_64-linux-gnu/libbfd-2.31.1-system.so)
+/usr/bin/ar: /lib/x86_64-linux-gnu/libz.so.1: no version information available (required by /usr/lib/x86_64-linux-gnu/libbfd-2.31.1-system.so)
+/usr/bin/ar: /lib/x86_64-linux-gnu/libz.so.1: no version information available (required by /usr/lib/x86_64-linux-gnu/libbfd-2.31.1-system.so)
+/usr/bin/ar: /lib/x86_64-linux-gnu/libz.so.1: no version information available (required by /usr/lib/x86_64-linux-gnu/libbfd-2.31.1-system.so)
+/usr/bin/ar: /lib/x86_64-linux-gnu/libz.so.1: no version information available (required by /usr/lib/x86_64-linux-gnu/libbfd-2.31.1-system.so)
+/usr/bin/ar: /lib/x86_64-linux-gnu/libz.so.1: no version information available (required by /usr/lib/x86_64-linux-gnu/libbfd-2.31.1-system.so)
+E: libffi6: symbols-file-contains-current-version-with-debian-revision on symbol __cacheSize@Base and 15 others
+/usr/bin/ar: /lib/x86_64-linux-gnu/libz.so.1: no version information available (required by /usr/lib/x86_64-linux-gnu/libbfd-2.31.1-system.so)
+/usr/bin/ar: /lib/x86_64-linux-gnu/libz.so.1: no version information available (required by /usr/lib/x86_64-linux-gnu/libbfd-2.31.1-system.so)
+Finished running lintian.

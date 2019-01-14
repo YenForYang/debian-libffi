@@ -1,0 +1,41 @@
+Format: 1.8
+Date: Tue, 27 Nov 2018 11:52:58 +0100
+Source: libffi
+Binary: libffi-dev libffi6 libffi6-dbg libffi6-udeb
+Built-For-Profiles: nobiarch nocheck nodoc
+Architecture: amd64
+Version: 3.2.1-9
+Distribution: unstable
+Urgency: medium
+Maintainer: Debian GCC Maintainers <debian-gcc@lists.debian.org>
+Changed-By: Matthias Klose <doko@debian.org>
+Description:
+ libffi-dev - Foreign Function Interface library (development files)
+ libffi6    - Foreign Function Interface library runtime
+ libffi6-dbg - Foreign Function Interface library runtime (debug symbols)
+ libffi6-udeb - Foreign Function Interface library runtime (udeb)
+Closes: 816317 914442
+Changes:
+ libffi (3.2.1-9) unstable; urgency=medium
+ .
+   * Add home page attribute to the control file. Closes: #816317.
+   * riscv64 backport. Closes: #914442.
+Checksums-Sha1:
+ 6ade4f8f0f2bde465318e0139509217f8bd107df 364012 libffi-dev_3.2.1-9_amd64.deb
+ 81c63c960318a6d81d1b694ed433906fdd042d49 25212 libffi6-dbg_3.2.1-9_amd64.deb
+ fc9d0fda273a4e431d086403c48e437d9fb357cf 29644 libffi6-udeb_3.2.1-9_amd64.udeb
+ bd8354c9c850a9db8f9010594caf8aefdd1b17ea 35596 libffi6_3.2.1-9_amd64.deb
+ 600eb10c7abd224f6924f8641b305f28ebfc6afa 6497 libffi_3.2.1-9_amd64.buildinfo
+Checksums-Sha256:
+ ec206bf4e3ddf5bfce9f02332bc0fee46d78a7f26f14042cc9207b1de0f0483d 364012 libffi-dev_3.2.1-9_amd64.deb
+ 31f92de1c6bef68cc67c66d5227bd9f5663eb32b888a5495c95e9d700a1417fe 25212 libffi6-dbg_3.2.1-9_amd64.deb
+ 84392e720aaed875a27c3eaa3a2accf31c5a47a15e10720ab00dd9e0c1d655fc 29644 libffi6-udeb_3.2.1-9_amd64.udeb
+ c5aa4da9036db2b1a95dd2dd5213933049ab201cb48a61f7a1387f1f6f3a6193 35596 libffi6_3.2.1-9_amd64.deb
+ 6e170dead1eee40b5a537d1dd42e6f8ad367c2439a803fb40c6d58466c7604d7 6497 libffi_3.2.1-9_amd64.buildinfo
+Files:
+ df08d7786ae31997a992c4284bb2168a 364012 libdevel optional libffi-dev_3.2.1-9_amd64.deb
+ 82a96ba520b32962485eef552d797107 25212 debug optional libffi6-dbg_3.2.1-9_amd64.deb
+ 0b39eea6fb39c02927aa697b9d4302cd 29644 debian-installer optional libffi6-udeb_3.2.1-9_amd64.udeb
+ 0f5ee1b61ebc992f6bf367e5e4cd6994 35596 libs optional libffi6_3.2.1-9_amd64.deb
+ 2e0f5d6b8dda34b0c58beabbd62d2f0e 6497 libs optional libffi_3.2.1-9_amd64.buildinfo
+Package-Type: udeb

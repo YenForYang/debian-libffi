@@ -1,0 +1,1 @@
+sysv.o: ../src/x86/sysv.S /usr/include/stdc-predef.h
